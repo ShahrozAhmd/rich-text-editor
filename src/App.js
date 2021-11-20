@@ -1,11 +1,11 @@
 import React, { useState ,useEffect } from "react";
-
+import Routes from "Routes/routes"
 const App = () => {
   
   return (
-    <div>
-      Editor
-    </div>
+    <>
+      <Routes/>
+    </>
   );
 };
 
