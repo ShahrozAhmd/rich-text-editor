@@ -1,10 +1,10 @@
 import React from 'react'
+import Modal from 'Components/Modal/modal'
+
 
 const Landing  = () =>  {
     return (
-        <div>
-            Landing 
-        </div>
+     <Modal/>
     )
 }
 

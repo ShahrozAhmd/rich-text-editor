@@ -4,7 +4,7 @@ export const Context = createContext();
 
 export const Store = () => useContext(Context);
 
-const ContextProvider = ({ initialState, reducer, children }) => {
+const ContextProvider = ({ initialState, reducer, children }) => { //()=>{}
   const [state, dispatch] = useReducer(initialState, reducer);
 
   return (
