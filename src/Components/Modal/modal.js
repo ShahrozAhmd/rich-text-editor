@@ -1,12 +1,9 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import {
-  Button,
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
-  useMediaQuery,
 } from "@mui/material";
 
 import { useTheme } from "@mui/material/styles";
@@ -24,7 +21,13 @@ import Loader from "react-loader-spinner";
 
 const Modal = ({ isOpen }) => {
   const [open, setOpen] = React.useState(true);
-  const theme = useTheme();
+  const [documentName, setDocumentName] = useState("");
+
+  const [uiEvents, setUiEvents] = useState({
+    isCreateNew: false,
+    isUpload: false,
+    isGoBack: false,
+  });
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -34,6 +37,19 @@ const Modal = ({ isOpen }) => {
     setOpen(false);
   };
 
+  const createNewHandler = () => {
+    setUiEvents({ ...uiEvents, isCreateNew: true });
+  };
+  const goBackHandler = () => {
+    setUiEvents({ isCreateNew: false, isUpload: false, isGoBack: false });
+    setDocumentName("")
+  };
+  const setDocumentNameHandler = (e) => {
+    setDocumentName(e.target.value);
+  };
+  useEffect(() => {
+    console.log(documentName);
+  }, [documentName]);
   return (
     <div>
       {/* <Button variant="outlined" onClick={handleClickOpen}>
@@ -41,21 +57,26 @@ const Modal = ({ isOpen }) => {
       </Button> */}
       <Dialog
         open={open}
-        onClose={handleClose}
+        // comment it for some time that this disable modal disappear on backdrop click
+        // onClose={handleClose}
         aria-labelledby="responsive-dialog-title"
       >
         <DialogTitle id="responsive-dialog-title">
           {/* Back button to show when user wants to select another option */}
-          <Box sx={{ display: "flex", justifyContent: "flex-start" }}>
-            <IconButton>
-              <ArrowCircleLeftIcon color="primary" fontSize="large" />
-            </IconButton>
-          </Box>
+          {uiEvents.isCreateNew || uiEvents.isUpload ? (
+            <Box sx={{ display: "flex", justifyContent: "flex-start" }}>
+              <IconButton onClick={goBackHandler}>
+                <ArrowCircleLeftIcon color="primary" fontSize="large" />
+              </IconButton>
+            </Box>
+          ) : null}
+
           {/* Title Tagline */}
           <Typography variant="h5" align="center">
             Create Your Documents On The Go...
           </Typography>
         </DialogTitle>
+
         <DialogContent>
           {/* Image */}
           <Stack
@@ -76,27 +97,39 @@ const Modal = ({ isOpen }) => {
           </Stack>
         </DialogContent>
         {/* Buttons for selecting one option */}
-        <DialogActions>
-          <Stack
-            direction={{ xs: "column", sm: "row", md: "row" }}
-            spacing={2}
-            sx={{ width: "100%" }}
-          >
-            <CreateNewButton width="100" btnText="Create New" />
-            <UploadButton />
-          </Stack>
-        </DialogActions>
+        {!uiEvents.isCreateNew && (
+          <DialogActions>
+            <Stack
+              direction={{ xs: "column", sm: "row", md: "row" }}
+              spacing={2}
+              sx={{ width: "100%" }}
+            >
+              <CreateNewButton
+                width="100"
+                btnText="Create New"
+                click={createNewHandler}
+              />
+              <UploadButton />
+            </Stack>
+          </DialogActions>
+        )}
         {/* Give name to the new created document  */}
-        <DialogActions>
-          <Stack
-            direction={{ xs: "column", sm: "row", md: "row" }}
-            spacing={2}
-            sx={{ width: "100%" }}
-          >
-            <Input />
-            <CreateNewButton width="40" btnText="Create" />
-          </Stack>
-        </DialogActions>
+        {uiEvents.isCreateNew && (
+          <DialogActions>
+            <Stack
+              direction={{ xs: "column", sm: "row", md: "row" }}
+              spacing={2}
+              sx={{ width: "100%" }}
+            >
+              <Input change={setDocumentNameHandler} />
+              <CreateNewButton
+                width="40"
+                btnText="Create"
+                disable={documentName !== "" ? false : true}
+              />
+            </Stack>
+          </DialogActions>
+        )}
       </Dialog>
     </div>
   );
