@@ -50,9 +50,19 @@ const Modal = ({ isOpen }) => {
   const uploadDocument = (e) => {
     setUiEvents({ ...uiEvents, isCreateNew: false, isUpload: true });
     setUploadedFile(e.target.files[0]);
-
-    console.log("file uploaded");
+    setDocumentName(e.target.files[0].name);
   };
+
+  const loadDoc = () => {
+   if(uiEvents.isCreateNew){
+
+    console.log("Create New")
+
+   }else if(uiEvents.isUpload){
+    console.log("Uploaded")
+   }
+  }
+
   useEffect(() => {
     console.log(uploadedFile);
   }, [uploadedFile]);
@@ -129,11 +139,12 @@ const Modal = ({ isOpen }) => {
               spacing={2}
               sx={{ width: "100%" }}
             >
-              <Input change={setDocumentNameHandler} />
+              <Input change={setDocumentNameHandler} value={documentName} />
               <CreateNewButton
                 width="40"
-                btnText="Create"
+                btnText={uiEvents.isUpload ? "Start" : "Create"}
                 disable={documentName !== "" ? false : true}
+                click={loadDoc}
               />
             </Stack>
           </DialogActions>
