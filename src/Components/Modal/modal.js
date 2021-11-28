@@ -6,7 +6,6 @@ import {
   DialogTitle,
 } from "@mui/material";
 
-import { useTheme } from "@mui/material/styles";
 import Stack from "@mui/material/Stack";
 import CreateNewButton from "../UI/Button/createnew-button";
 import landingImage from "Assets/Images/landing.png";
@@ -22,6 +21,7 @@ import Loader from "react-loader-spinner";
 const Modal = ({ isOpen }) => {
   const [open, setOpen] = React.useState(true);
   const [documentName, setDocumentName] = useState("");
+  const [uploadedFile, setUploadedFile] = useState(false);
 
   const [uiEvents, setUiEvents] = useState({
     isCreateNew: false,
@@ -42,14 +42,20 @@ const Modal = ({ isOpen }) => {
   };
   const goBackHandler = () => {
     setUiEvents({ isCreateNew: false, isUpload: false, isGoBack: false });
-    setDocumentName("")
+    setDocumentName("");
   };
   const setDocumentNameHandler = (e) => {
     setDocumentName(e.target.value);
   };
+  const uploadDocument = (e) => {
+    setUiEvents({ ...uiEvents, isCreateNew: false, isUpload: true });
+    setUploadedFile(e.target.files[0]);
+
+    console.log("file uploaded");
+  };
   useEffect(() => {
-    console.log(documentName);
-  }, [documentName]);
+    console.log(uploadedFile);
+  }, [uploadedFile]);
   return (
     <div>
       {/* <Button variant="outlined" onClick={handleClickOpen}>
@@ -73,7 +79,7 @@ const Modal = ({ isOpen }) => {
 
           {/* Title Tagline */}
           <Typography variant="h5" align="center">
-            Create Your Documents On The Go...
+            Create / Edit Your Word Documents On The Go...
           </Typography>
         </DialogTitle>
 
@@ -97,7 +103,8 @@ const Modal = ({ isOpen }) => {
           </Stack>
         </DialogContent>
         {/* Buttons for selecting one option */}
-        {!uiEvents.isCreateNew && (
+
+        {!uiEvents.isCreateNew && !uiEvents.isUpload ? (
           <DialogActions>
             <Stack
               direction={{ xs: "column", sm: "row", md: "row" }}
@@ -109,12 +116,13 @@ const Modal = ({ isOpen }) => {
                 btnText="Create New"
                 click={createNewHandler}
               />
-              <UploadButton />
+              <UploadButton change={uploadDocument} />
             </Stack>
           </DialogActions>
-        )}
-        {/* Give name to the new created document  */}
-        {uiEvents.isCreateNew && (
+        ) : null}
+
+        {/* Give name to the new created or uploaded document  */}
+        {uiEvents.isCreateNew || uiEvents.isUpload ? (
           <DialogActions>
             <Stack
               direction={{ xs: "column", sm: "row", md: "row" }}
@@ -129,7 +137,7 @@ const Modal = ({ isOpen }) => {
               />
             </Stack>
           </DialogActions>
-        )}
+        ) : null}
       </Dialog>
     </div>
   );
