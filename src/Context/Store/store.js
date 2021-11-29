@@ -8,7 +8,7 @@ const ContextProvider = ({ initialState, reducer, children }) => { //()=>{}
   const [state, dispatch] = useReducer(initialState, reducer);
 
   return (
-    <Context.Provider value={[state, dispatch]}>{children}</Context.Provider>
+    <Context.Provider value={state, dispatch}>{children}</Context.Provider>
   );
 };
 

@@ -18,6 +18,11 @@ import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import Loader from "react-loader-spinner";
 
+// Global state import:
+import { Store } from "Context/Store/store";
+// Actions:
+import { _uploadDocument, _createNewDocument } from "Context/Actions/actions";
+
 const Modal = ({ isOpen }) => {
   const [open, setOpen] = React.useState(true);
   const [documentName, setDocumentName] = useState("");
@@ -28,6 +33,8 @@ const Modal = ({ isOpen }) => {
     isUpload: false,
     isGoBack: false,
   });
+
+  const { state, dispatch } = Store;
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -54,16 +61,12 @@ const Modal = ({ isOpen }) => {
   };
 
   const loadDoc = () => {
-   if(uiEvents.isCreateNew){
-
-    
-
-    console.log("Create New")
-
-   }else if(uiEvents.isUpload){
-    console.log("Uploaded")
-   }
-  }
+    if (uiEvents.isCreateNew) {
+      _createNewDocument(documentName, dispatch);
+    } else if (uiEvents.isUpload) {
+      _uploadDocument(documentName, uploadedFile, dispatch);
+    }
+  };
 
   useEffect(() => {
     console.log(uploadedFile);

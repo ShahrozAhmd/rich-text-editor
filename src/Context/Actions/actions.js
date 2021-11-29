@@ -1,35 +1,22 @@
 import * as actionType from "../ActionTypes/action-types";
 
-const createNewDocument = () => {
-  return {
+const _createNewDocument = (name, dispatch) => {
+  dispatch({
     type: actionType.CREATE_NEW_DOCUMENT,
-  };
+    payload: {
+      fileName: name,
+    },
+  });
 };
 
-const uploadDocumentInit = () => {
-  return {
-    type: actionType.UPLOAD_DOCUMENT_INIT,
-  };
-};
-
-const uploadDocumentSuccess = (data) => {
-  return {
-    type: actionType.UPLOAD_DOCUMENT_SUCCESS,
-    payload: data,
-  };
-};
-
-const uploadDocumentFail = (data) => {
-  return {
-    type: actionType.UPLOAD_DOCUMENT_FAIL,
-    payload: data,
-  };
-};
-
-const uploadDocument = (dispatch) => {
-  dispatch(uploadDocumentInit());
-  dispatch(uploadDocumentSuccess());
-  dispatch(uploadDocumentFail());
+const _uploadDocument = (name, file, dispatch) => {
+  dispatch({
+    type: actionType.UPLOAD_DOCUMENT,
+    payload: {
+      fileName: name,
+      file: file,
+    },
+  });
 };
 const downloadDocumentInit = () => {
   return {
@@ -57,4 +44,4 @@ const downloadDocument = (dispatch) => {
   dispatch(downloadDocumentFail());
 };
 
-export { uploadDocument, createNewDocument, downloadDocument };
+export { _uploadDocument, _createNewDocument, downloadDocument };
