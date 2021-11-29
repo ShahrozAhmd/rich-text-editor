@@ -31,5 +31,30 @@ const uploadDocument = (dispatch) => {
   dispatch(uploadDocumentSuccess());
   dispatch(uploadDocumentFail());
 };
+const downloadDocumentInit = () => {
+  return {
+    type: actionType.DOWNLOAD_DOCUMENT_INIT,
+  };
+};
 
-export { uploadDocument, createNewDocument };
+const downloadDocumentSuccess = (data) => {
+  return {
+    type: actionType.DOWNLOAD_DOCUMENT_SUCCESS,
+    payload: data,
+  };
+};
+
+const downloadDocumentFail = (data) => {
+  return {
+    type: actionType.DOWNLOAD_DOCUMENT_FAIL,
+    payload: data,
+  };
+};
+
+const downloadDocument = (dispatch) => {
+  dispatch(downloadDocumentInit());
+  dispatch(downloadDocumentSuccess());
+  dispatch(downloadDocumentFail());
+};
+
+export { uploadDocument, createNewDocument, downloadDocument };

@@ -1,8 +1,6 @@
 import { state } from "Context/State/state";
 
-const {landing} = state;
-
-const Reducer = (state = landing, action) => {
+const Reducer = (state = state, action) => {
   switch (
     action.type
     // case:

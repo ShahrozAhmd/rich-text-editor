@@ -56,6 +56,8 @@ const Modal = ({ isOpen }) => {
   const loadDoc = () => {
    if(uiEvents.isCreateNew){
 
+    
+
     console.log("Create New")
 
    }else if(uiEvents.isUpload){
